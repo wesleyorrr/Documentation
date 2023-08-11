@@ -1,0 +1,76 @@
+Layouts   Parte do Android Jetpack.
+
+O layout define a estrutura de uma interface do usuário no aplicativo, como acontece na atividade. Todos os elementos do layout são criados usando a hierarquia de objetos View e ViewGroup. A View geralmente desenha algo que o usuário pode ver e com que pode interagir. Já um ViewGroup é um contêiner invisível que define a estrutura do layout para View e outros objetos ViewGroup, como pode ser visto na figura 1.
+
+Figura 1. Ilustração de uma hierarquia de visualização, que define o layout de uma IU.
+
+Os objetos View geralmente são chamados de "widgets" e podem ser uma das muitas subclasses, como Button ou TextView. Os objetos ViewGroup geralmente são chamados de layouts e podem ser de um dos muitos tipos que fornecem uma estrutura de layout diferente, como LinearLayout ou ConstraintLayout .
+
+Um layout pode ser declarado de duas maneiras:
+
+    Declarar elementos da IU em XML. O Android fornece um vocabulário XML direto que corresponde às classes e subclasses de visualização, como as de widgets e layouts.
+
+    Também é possível usar o Layout Editor do Android Studio para criar o layout XML usando uma interface de arrastar e soltar.
+    Instanciar elementos do layout no momento da execução. O aplicativo pode criar objetos View e ViewGroup (e processar suas propriedades) programaticamente.
+
+Ao declarar a IU no XML, é possível separar a apresentação do seu aplicativo do código que controla o comportamento dele. O uso de arquivos XML também facilita conseguir layouts diferentes para diferentes orientações e tamanhos de tela. Isso é discutido em Compatibilidade com diferentes tamanhos de tela.
+
+A biblioteca do Android oferece flexibilidade para usar um ou ambos os métodos para criar a IU do seu aplicativo. Por exemplo, é possível declarar os layouts padrão do aplicativo em XML e, em seguida, modificar o layout no momento da execução.
+Programação do XML
+
+Usando o vocabulário XML do Android, é possível projetar rapidamente layouts de IU e os elementos de tela intrínsecos, do mesmo modo que se cria páginas Web em HTML - com uma série de elementos aninhados.
+
+Cada arquivo de layout deve conter exatamente um elemento raiz, que deve ser um objeto View ou ViewGroup. Com o elemento raiz definido, é possível adicionar objetos ou widgets de layout extras como elementos filho para construir gradualmente uma hierarquia de View que define o layout. Por exemplo, veja um layout XML que usa um LinearLayout vertical para conter um TextView e um Button:
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical" >
+    <TextView android:id="@+id/text"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Hello, I am a TextView" />
+    <Button android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello, I am a Button" />
+</LinearLayout>
+
+Após declarar o layout no XML, salve o arquivo com uma extensão .xml no diretório res/layout/ do projeto do Android para compilá-lo adequadamente.
+Parâmetros do layout
+
+Os atributos do layout XML chamados layout_something definem parâmetros de layout para o View apropriados para o ViewGroup em que reside.
+
+Cada classe ViewGroup implementa uma classe aninhada que estende ViewGroup.LayoutParams. Essa subclasse contém tipos de property que definem o tamanho e a posição de cada visualização filha, conforme necessário para o grupo de visualizações. Como se pode ver na figura 2, um grupo de visualizações pai define parâmetros de layout para cada visualização filha (incluindo o grupo de visualizações filhas).
+
+Figura 2. Visualização de uma hierarquia de exibições com parâmetros de layout associados a cada uma delas.
+
+Cada subclasse LayoutParams tem a própria sintaxe para definir valores. Cada elemento filho deve definir LayoutParams apropriados para o pai, embora possa também definir diferentes LayoutParams para os próprios filhos.
+
+Todos os grupos de visualizações contêm largura e altura (layout_width e layout_height) e cada visualização é obrigatória para defini-las. Muitos LayoutParams também contêm margens e bordas opcionais.
+
+É possível especificar largura e altura com medidas exatas, embora não seja recomendável na maioria dos casos. Em geral, usa-se uma destas constantes para definir a largura e a altura:
+
+    wrap_content instrui a exibição a redimensionar de acordo com as dimensões exigidas pelo conteúdo.
+    match_parent instrui sua visualização a assumir o maior tamanho permitido pelo grupo de visualizações parental.
+
+Em geral, a especificação de largura e altura de um layout com unidades absolutas, como pixels, não é recomendada. Em vez disso, o uso de medidas relativas como unidades de pixel de densidade independente (dp), wrap_content ou match_parent é uma abordagem melhor, porque ajuda a garantir que o app exiba o conteúdo adequadamente nos diversos tamanhos de tela de dispositivos. Os tipos de medidas aceitos são definidos no documento Recursos disponíveis.
+Posição do layout
+
+A forma geométrica de uma visualização é um retângulo. As visualizações têm uma localização, expressa como um par de coordenadas esquerda e superior, além de duas dimensões, expressas como largura e altura. A unidade de localização e de dimensões é o pixel.
+
+É possível recuperar a localização de uma visualização chamando os métodos getLeft() e getTop(). O primeiro retorna a coordenada esquerda, ou X, do retângulo que representa a visualização. O último retorna a coordenada superior, ou Y, do retângulo que representa a visualização. Esses métodos retornam a localização da visualização em relação ao pai correspondente. Por exemplo, quando getLeft() retorna 20, significa que a visualização se localiza 20 pixels à direita da borda esquerda do seu pai direto.
+
+Além disso, diversos métodos de conveniência são oferecidos para evitar cálculos desnecessários, chamados getRight() e getBottom(). Esses métodos retornam as coordenadas das bordas direita e inferior do retângulo que representa a visualização. Por exemplo, chamar getRight() é semelhante ao seguinte cálculo: getLeft() + getWidth().
+Tamanho, preenchimento e margens
+
+O tamanho de uma visualização é expresso por largura e altura. As visualizações, na verdade, têm dois pares de valores de largura e altura.
+
+O primeiro par é conhecido como largura medida e altura medida. Essas dimensões definem o tamanho que a visualização terá dentro do parental. As dimensões medidas podem ser conseguidas chamando getMeasuredWidth() e getMeasuredHeight().
+
+O segundo par é simplesmente conhecido como largura e altura ou, às vezes, largura do desenho e altura do desenho. Essas dimensões definem o tamanho real da visualização na tela, na hora do desenho e após o layout. Esses valores podem diferir da largura e da altura medidas. Os valores de largura e altura podem ser conseguidos chamando getWidth() e getHeight().
+
+Para medir as dimensões, a visualização leva em conta o preenchimento. O padding é expresso em pixels para a esquerda, a direita e as partes superior e inferior da visualização. O padding pode ser usado para compensar o conteúdo da visualização por um número específico de pixels. Por exemplo, um padding à esquerda de 2 empurrará o conteúdo da visualização em 2 pixels para a direita da borda esquerda. O preenchimento pode ser definido usando o método setPadding(int, int, int, int) e consultado chamando getPaddingLeft(), getPaddingTop(), getPaddingRight() e getPaddingBottom().
+
+Mesmo que cada visualização possa definir um padding, ela não fornece nenhuma compatibilidade com margens. No entanto, os grupos de visualizações oferecem essa compatibilidade. Consulte ViewGroup e ViewGroup.MarginLayoutParams para ver mais informações. 
