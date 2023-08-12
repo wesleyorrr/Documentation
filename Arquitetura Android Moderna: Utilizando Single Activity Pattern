@@ -1,0 +1,36 @@
+Arquitetura Android Moderna: Utilizando Single Activity Pattern
+Se você já trabalha com Android, ou está começando seus estudos, provavelmente já conhece as Activities, presentes desde sempre no desenvolvimento android nativo, elas fornecem os meios para que as pessoas possam interagir com nossos aplicativos através da UI (Interface de Usuário).
+
+Geralmente, quando começamos a desenvolver uma nova aplicação, a tendência é utilizarmos uma Activity para representar cada "tela" do nosso app.
+Com o passar do tempo e com aplicações cada vez maiores e complexas, logo teremos muitas Activities em nosso projeto, e cada uma com suas n responsabilidades. O que não é ruim, dado que, desde sempre trabalhamos desse modo ao se utilizar o framework android. Mas em se tratando de projetos que temos a pretensão de escalabilidade, quanto mais simples e funcional for nossa arquitetura, mais fácil será sua manutebilidade futuro.
+Arquitetura Single Activity, a salvação?
+
+Na documentação oficial do Android Developers, o time do Google, aborda algumas recomendações de arquitetura e boas práticas, utilizando alguns conceitos modernos, com o objetivo de melhorar a qualidade e robustez dos nossos aplicativos, uma dessas recomendações, é justamente o assunto desse artigo, a utilização de uma arquitetura baseada em uma activity (ou o mínimo possível).
+
+Em resumo, essa abordagem consiste em termos uma activity que servirá como um containêr para os vários fragmentos que irão compor as demais telas do app.
+Para ficar mais claro, imagine um aplicativo que existá 3 (três) telas (login, cadastro e home), ao invés de utilizarmos três Activities (uma para cada tela), podemos ter uma Activity principal (MainActivity) e todas as demais telas podem ser Fragments. Com isso teremos mais flexibilidade para trabalhar em nosso app e compartilhar os dados entre elas.
+Alguns pontos importantes sobre essa abordagem:
+
+    Não há a necessidade de sempre registrar uma nova activity no manifest.xml, dado que só teremos uma no projeto todo;
+    A navegação entre as UIs fica mais fácil de lidar, pois não precisamos lidar com isso manualmente, basta utilizar o Jetpack Navigation Component;
+    Facilidade em compartilhar o estado, visto que os fragmentos estarão delimitados à mesma activity;
+    Podemos delimitar quais rotas (destinos) cada tela poderá fazer, por exemplo, uma tela de login, só poderia enviar a pessoa para a tela de cadastro e nenhuma outra;
+
+E sobre a implmentação?
+
+    Esse artigo não entrará em detalhes de implementação, veremos apenas alguns dos pontos mais importantes — Veja aqui os detalhes na documentação oficial.
+
+Para que possamos implementar essa abordagem, deveremos utilizar a biblioteca Jetpack Navigation Component, ela irá nos fornecer um sistema de navegação fluído e robusto.
+
+Todo esse sistema é composto de três partes fundamentais:
+
+    NavigationGraph (Gráfico de navegação)
+    NavigationHost (Host de navegação)
+    NavController (Controle de navegação)
+
+O NavigationGraph é um aquivo .xml que deverá conter todas as informações referentes aos destinos que o aplicativo terá, você pode entender os destinos, como as possíveis áreas do app (rotas).
+
+O NavigationHost por sua vez, é um contêiner vazio em que os destinos serão substituídos por outros e tudo isso será gerenciado pelo NavController. 
+Finalizando
+
+Importante notar que tudo o que falamos até aqui, são apenas recomendações de como podemos ter uma estrutura mais simples e concisa utilizando a abordagem de única Activity e como a biblioteca de navegação de componentes pode nos ajudar, existem ainda outras formas de melhorar a arquitetura de um projeto e sempre caberá a você decidir o que utilizar e em qual momento.
