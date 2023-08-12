@@ -1,0 +1,211 @@
+ À medida que o usuário navega no aplicativo, sai dele e retorna a ele, as instâncias Activity no aplicativo transitam entre diferentes estados no ciclo de vida. A classe Activity fornece uma quantidade de callbacks que permite que a atividade saiba sobre a mudança do estado: informa a respeito da criação, interrupção ou retomada de uma atividade ou da destruição do processo em que ela reside por parte do sistema.
+
+Dentro dos métodos de callback do ciclo de vida, você pode declarar como a atividade deve se comportar quando o usuário sai e retorna dela. Por exemplo, se estiver construindo um reprodutor de vídeos de transmissão em sequência, você pode pausar o vídeo e encerrar a conexão da rede quando o usuário alternar para outro aplicativo. Quando o usuário retornar, será possível reconectar a rede e permitir que ele reinicie o vídeo de onde parou. Ou seja, cada callback permite que você realize o trabalho específico adequado a determinada mudança de estado. Fazer o trabalho certo no momento apropriado e gerenciar as transições da maneira correta faz com que seu aplicativo seja mais robusto e tenha melhor desempenho. Por exemplo, uma boa implementação dos callbacks de ciclo de vida pode ajudar a garantir que seu aplicativo evite os problemas a seguir:
+
+    Falhas se o usuário receber uma chamada telefônica ou mudar para outro aplicativo enquanto estiver usando seu aplicativo.
+    Consumo de recursos importantes do sistema quando o usuário não estiver usando ativamente o aplicativo.
+    Perda do progresso do usuário se ele sair do aplicativo e retornar mais tarde.
+    Falhas ou perda do progresso do usuário quando a orientação da tela mudar entre paisagem e retrato.
+
+Este documento explica detalhadamente o ciclo de vida da atividade. O documento começa descrevendo o paradigma do ciclo de vida. Em seguida, cada um dos callbacks é explicado: o que acontece internamente quando eles operam e o que você deve implementar durante a execução deles. Depois é apresentada a relação entre o estado da atividade e a vulnerabilidade de um processo que está sendo eliminado pelo sistema. Por fim, vários tópicos relacionados às transições entre os estados de atividade são discutidos.
+
+Para informações sobre como gerenciar ciclos de vida, inclusive orientação sobre práticas recomendadas, veja Como gerenciar ciclos de vida com componentes que os reconhecem e Como salvar estados da IU. Para saber como arquitetar um aplicativo robusto e de qualidade de produção usando atividades em combinação com os componentes da arquitetura, consulte Guia para a arquitetura do app.
+Conceitos do ciclo de vida da atividade
+
+Para navegar entre as fases do ciclo de vida da atividade, a classe “Activity” fornece um conjunto principal de seis callbacks: onCreate(), onStart(), onResume(), onPause(), onStop() e onDestroy(). Conforme a atividade entra em um novo estado, o sistema invoca cada um desses callbacks.
+
+A imagem 1 demonstra a representação visual desse paradigma.
+
+Figura 1. Ilustração simplificada do ciclo de vida da atividade.
+
+À medida que o usuário começa a sair da atividade, o sistema chama métodos para eliminá-la. Em alguns casos, essa eliminação é somente parcial. A atividade ainda reside na memória, como quando o usuário alterna para outro aplicativo, e ainda pode voltar ao primeiro plano. Se o usuário retornar a essa atividade, a atividade será retomada de onde o usuário parou. Com algumas exceções, os aplicativos são impedidos de iniciar atividades quando executados em segundo plano.
+
+A probabilidade do sistema eliminar um determinado processo, com as atividades nele, depende do estado da atividade no momento. Em Estado da atividade e ejeção da memória, há mais informações sobre o relacionamento entre o estado e a vulnerabilidade para ejeção.
+
+Dependendo da complexidade de sua atividade, não é necessário implementar todos os métodos do ciclo de vida. No entanto, é importante compreender cada um deles e implementar somente os que garantem que o aplicativo tenha o desempenho esperado pelo usuário.
+
+A próxima seção deste documento fornece detalhes sobre os callbacks usados para processar as transições entre os estados. 
+Callbacks do ciclo de vida
+
+Esta seção fornece informações conceituais e de implementação sobre os métodos de callback usados durante o ciclo de vida da atividade.
+
+Algumas ações, como chamar setContentView(), fazem parte dos métodos do ciclo de vida da atividade em si. No entanto, o código que implementa as ações de um componente dependente deve ser colocado no próprio componente. Para fazer isso, você precisa tornar o componente dependente ciente do ciclo de vida. Veja Como gerenciar ciclos de vida com componentes que os reconhecem para saber como tornar seus componentes dependentes cientes do ciclo de vida.
+onCreate()
+
+Esse callback precisa ser implementado. Ele é acionado assim que o sistema cria a atividade. Quando a atividade é criada, ela insere o estado Criado. No método onCreate(), você executa a lógica básica de inicialização do aplicativo. Isso deve acontecer somente uma vez durante todo o período que a atividade durar. Por exemplo, sua implementação de onCreate() pode vincular dados a listas, associar a atividade a um ViewModel e instanciar algumas variáveis com escopo de classe. Esse método recebe o parâmetro savedInstanceState, um objeto Bundle que contém o estado anteriormente salvo da atividade. Se a atividade nunca existiu, o valor do objeto Bundle será nulo.
+
+Caso você tenha um componente ciente do ciclo de vida conectado ao ciclo de vida da sua atividade, ele receberá o evento ON_CREATE. O método anotado com @OnLifecycleEvent será chamado para que seu componente ciente do ciclo de vida possa executar qualquer código de configuração necessário para o estado criado.
+
+O seguinte exemplo do método onCreate() mostra uma configuração fundamental para a atividade, como declarar a interface do usuário (definida em um arquivo de layout XML), definir variáveis de associação e configurar parte da IU. Neste exemplo, o arquivo de layout XML é especificado passando o código de recurso R.layout.main_activity do arquivo para setContentView().
+Kotlin
+Java
+
+lateinit var textView: TextView
+
+// some transient state for the activity instance
+var gameState: String? = null
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    // call the super class onCreate to complete the creation of activity like
+    // the view hierarchy
+    super.onCreate(savedInstanceState)
+
+    // recovering the instance state
+    gameState = savedInstanceState?.getString(GAME_STATE_KEY)
+
+    // set the user interface layout for this activity
+    // the layout file is defined in the project res/layout/main_activity.xml file
+    setContentView(R.layout.main_activity)
+
+    // initialize member TextView so we can manipulate it later
+    textView = findViewById(R.id.text_view)
+}
+
+// This callback is called only when there is a saved instance that is previously saved by using
+// onSaveInstanceState(). We restore some state in onCreate(), while we can optionally restore
+// other state here, possibly usable after onStart() has completed.
+// The savedInstanceState Bundle is same as the one used in onCreate().
+override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    textView.text = savedInstanceState?.getString(TEXT_VIEW_KEY)
+}
+
+// invoked when the activity may be temporarily destroyed, save the instance state here
+override fun onSaveInstanceState(outState: Bundle?) {
+    outState?.run {
+        putString(GAME_STATE_KEY, gameState)
+        putString(TEXT_VIEW_KEY, textView.text.toString())
+    }
+    // call superclass to save any view hierarchy
+    super.onSaveInstanceState(outState)
+}
+
+Como alternativa para definir o arquivo XML e passá-lo para setContentView(), você pode criar novos objetos View no seu código de atividade e criar uma hierarquia de visualização por meio da inserção de novas View em um ViewGroup. Em seguida, você usará o layout passando a raiz ViewGroup para setContentView(). Para ter mais informações sobre a criação de uma interface do usuário, consulte a documentação Interface do usuário.
+
+Sua atividade não reside no estado "Criado". Após o método onCreate() concluir a execução, a atividade insere o estado Iniciado e o sistema chama os métodos onStart() e onResume() em rápida sucessão. A próxima seção explica o callback onStart().
+onStart()
+
+Quando a atividade insere o estado "Iniciado", o sistema invoca esse callback. A chamada onStart() torna a atividade visível ao usuário, à medida que o aplicativo prepara a atividade para inserir o primeiro plano e se tornar interativa. Por exemplo, é nesse método que o aplicativo inicializa o código que mantém a IU.
+
+Quando a atividade é movida para o estado "Iniciado", qualquer componente ciente do ciclo de vida que esteja ligado ao ciclo de vida da atividade receberá o evento ON_START.
+
+O método onStart() faz a conclusão muito rapidamente e, como no caso do estado "Criado", a atividade não reside no estado "Iniciado". Quando a finalização é feita pelo callback, a atividade insere o estado Retomado e o sistema invoca o método onResume().
+onResume()
+
+Quando a atividade insere o estado "Retomado", ela vem para o primeiro plano e o sistema invoca o callback onResume(). É nesse estado que o aplicativo interage com o usuário. O app permanece nesse estado até que algo afete o foco do app. Esse evento pode ser, por exemplo, receber uma chamada telefônica, navegar pelo usuário para outra atividade ou desativar a tela do dispositivo.
+
+Quando a atividade é movida para o estado "Retomado", qualquer componente ciente do ciclo de vida ligado ao ciclo de vida da atividade receberá o evento ON_RESUME. É nesse momento que os componentes do ciclo de vida podem ativar qualquer funcionalidade que precise operar enquanto o componente estiver visível e em primeiro plano, como o início da visualização da câmera.
+
+Quando ocorre um evento de interrupção, a atividade insere o estado Pausado e o sistema invoca o callback onPause().
+
+Caso a atividade retorne do estado "Pausado" para o estado "Retomado", o sistema chamará novamente o método onResume(). Dessa forma, implemente o onResume() para inicializar os componentes liberados durante onPause() e execute outras inicializações que devem ocorrer sempre que a atividade entrar no estado "Retomado".
+
+Este é um exemplo de componente ciente do ciclo de vida que acessa a câmera quando o componente recebe o evento ON_RESUME:
+Kotlin
+Java
+
+class CameraComponent : LifecycleObserver {
+
+    ...
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun initializeCamera() {
+        if (camera == null) {
+            getCamera()
+        }
+    }
+
+    ...
+}
+
+O código acima inicializa a câmera quando o LifecycleObserver recebe o evento ON_RESUME. No entanto, no modo de várias janelas, a atividade poderá ficar completamente visível mesmo quando estiver no estado "Pausado". Por exemplo, quando o usuário está no modo de várias janelas e toca na outra janela que não contém a atividade, essa atividade será movida para o estado "Pausado". Se você quiser que a câmera seja ativada somente quando o aplicativo estiver Retomado (visível e ativo em primeiro plano), inicialize a câmera após o evento ON_RESUME demonstrado acima. Caso queira mantê-la ativada quando a atividade estiver pausada embora visível (por exemplo, no modo de várias janelas), inicialize a câmera após o evento ON_START. Perceba, no entanto, que deixar a câmera ativa quando a atividade estiver pausada pode negar o acesso de outro aplicativo retomado no modo de várias janelas à câmera. Às vezes, pode ser necessário manter a câmera ativa enquanto sua atividade é pausada, mas, na verdade, ela pode prejudicar a experiência do usuário. Pense cuidadosamente sobre onde, no ciclo de vida, é mais apropriado assumir o controle de recursos compartilhados do sistema no contexto de várias janelas. Para saber mais sobre o suporte ao modo de várias janelas, consulte Suporte a várias janelas.
+
+Independentemente de qual evento de construção você escolher para executar uma operação de inicialização, certifique-se de usar o evento de ciclo de vida correspondente para liberar o recurso. Se você inicializar algo após o evento ON_START, libere ou finalize esse item após o evento ON_STOP. Caso você inicialize após o evento ON_RESUME, faça a liberação após o evento ON_PAUSE.
+
+O snippet de código acima posiciona o código de inicialização da câmera em um componente ciente do ciclo de vida. Em vez disso, você pode colocar esse código diretamente nos callbacks do ciclo de vida da atividade, como onStart() e onStop(), mas isso não é recomendado. A adição dessa lógica a um componente independente e ciente do ciclo de vida permite reutilizar o componente em várias atividades sem ter que duplicar o código. Consulte Como gerenciar ciclos de vida com componentes que os reconhecem para saber como criar um componente ciente do ciclo de vida.
+onPause()
+
+O sistema chama esse método como a primeira indicação de que o usuário está deixando sua atividade, embora nem sempre signifique que a atividade esteja sendo destruída. Isso indica que a atividade não está mais em primeiro plano, embora ainda possa estar visível se o usuário estiver no modo de várias janelas. Use o método onPause() para pausar ou ajustar operações que não devem continuar (ou que precisem continuar com moderação) enquanto a Activity estiver no modo "Pausado" e aquelas que você espera retomar em breve. Há vários motivos pelos quais uma atividade pode entrar nesse estado. Por exemplo:
+
+    Algum evento interromper a execução do aplicativo, conforme descrito na seção onResume(). Esse é o caso mais comum.
+    No Android 7.0 (API de nível 24) ou mais recentes, diversos aplicativos operam no modo de várias janelas. Como só um dos aplicativos (janelas) tem foco a qualquer momento, o sistema pausa todos os outros aplicativos.
+    Uma nova atividade semitransparente (como uma caixa de diálogo) é aberta. Enquanto a atividade estiver parcialmente visível, mas não for a atividade em foco, ela permanecerá pausada. 
+
+Quando a atividade é movida para o estado pausado, qualquer componente ciente do ciclo de vida ligado ao ciclo de vida da atividade receberá o evento ON_PAUSE. É nesse momento que os componentes do ciclo de vida podem interromper qualquer funcionalidade que não precise operar enquanto o componente não estiver em primeiro plano, como na pausa de uma visualização da câmera.
+
+Também é possível usar o método onPause() para liberar recursos do sistema, tratamento de sensores (como GPS) ou quaisquer recursos que possam afetar a duração da bateria enquanto a atividade estiver pausada e o usuário não precisar deles. No entanto, como mencionado acima, na seção onResume(), uma atividade pausada ainda poderá ser completamente visível no modo de várias janelas. Assim, considere usar onStop() em vez de onPause() para liberar ou ajustar completamente operações e recursos relacionados à IU para melhorar o suporte do modo de várias janelas.
+
+O exemplo a seguir da reação de um LifecycleObserver ao evento ON_PAUSE é a contraparte do evento ON_RESUME acima, que libera a câmera inicializada após o recebimento do evento ON_RESUME:
+Kotlin
+Java
+
+class CameraComponent : LifecycleObserver {
+
+    ...
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun releaseCamera() {
+        camera?.release()
+        camera = null
+    }
+
+    ...
+}
+
+O snippet de código acima posiciona o código de liberação da câmera após o recebimento do evento ON_PAUSE pelo LifecycleObserver. Como mencionado antes, consulte Como gerenciar ciclos de vida com componentes que os reconhecem para saber como criar um componente ciente do ciclo de vida.
+
+A execução onPause() é muito breve e não oferece necessariamente tempo suficiente para realizar operações de salvamento. Por isso, não use onPause() para salvar dados do aplicativo ou do usuário, fazer chamadas de rede ou executar transações do banco de dados. Esse tipo de trabalho pode não ser concluído antes da finalização do método. Em vez disso, realize operações de desligamento pesadas durante onStop(). Para mais informações sobre operações adequadas a serem executadas durante onStop(), consulte onStop(). Para mais informações sobre como salvar dados, consulte Como salvar e restaurar o estado da atividade.
+
+A conclusão do método onPause() não significa que a atividade saia do estado "Pausado". Na verdade, a atividade permanece nesse estado até que ela seja retomada ou fique completamente invisível para o usuário. Se a atividade for retomada, o sistema invocará mais uma vez o callback onResume(). Caso a atividade retorne do estado "Pausado" para o estado "Retomado", o sistema manterá a instância Activity residente na memória, chamando novamente a instância quando o sistema invocar onResume(). Nesse cenário, não é necessário reiniciar componentes criados durante qualquer método de callback que leve ao estado "Retomado". Se a atividade ficar completamente invisível, o sistema chamará onStop(). A próxima seção discutirá o callback onStop().
+onStop()
+
+Quando a atividade não estiver mais visível ao usuário, ela inserirá o estado Interrompido e o sistema invocará o callback onStop(). Isso pode ocorrer, por exemplo, quando uma atividade recém-iniciada preenche toda a tela. O sistema também poderá chamar onStop() quando a atividade parar de operar e estiver prestes a ser concluída.
+
+Quando a atividade é movida para o estado interrompido, qualquer componente ciente do ciclo de vida ligado ao ciclo de vida da atividade receberá o evento ON_STOP. É nesse momento que os componentes do ciclo de vida podem interromper qualquer funcionalidade que não precise operar enquanto o componente não estiver visível na tela.
+
+No método onStop(), o aplicativo liberará ou ajustará recursos desnecessários enquanto o aplicativo não estiver visível ao usuário. Por exemplo, o aplicativo poderá pausar animações ou alternar de atualizações de local mais específicas para as menos detalhadas. O uso de onStop() em vez de onPause() garante que o trabalho relacionado à IU continue, mesmo quando o usuário estiver visualizando a atividade no modo de várias janelas.
+
+Use onStop() também para realizar operações de desligamento de uso intensivo da CPU. Por exemplo, se você não encontrar um momento mais oportuno para salvar informações em um banco de dados, poderá fazer isso durante onStop(). O exemplo abaixo mostra uma implementação de onStop() que salva o conteúdo de uma nota de rascunho no armazenamento persistente:
+Kotlin
+Java
+
+override fun onStop() {
+    // call the superclass method first
+    super.onStop()
+
+    // save the note's current draft, because the activity is stopping
+    // and we want to be sure the current note progress isn't lost.
+    val values = ContentValues().apply {
+        put(NotePad.Notes.COLUMN_NAME_NOTE, getCurrentNoteText())
+        put(NotePad.Notes.COLUMN_NAME_TITLE, getCurrentNoteTitle())
+    }
+
+    // do this update in background on an AsyncQueryHandler or equivalent
+    asyncQueryHandler.startUpdate(
+            token,     // int token to correlate calls
+            null,      // cookie, not used here
+            uri,       // The URI for the note to update.
+            values,    // The map of column names and new values to apply to them.
+            null,      // No SELECT criteria are used.
+            null       // No WHERE columns are used.
+    )
+}
+
+A amostra de código acima usa o SQLite diretamente. Em vez disso, use o Room, uma biblioteca de persistência que oferece uma camada de abstração acima do SQLite. Para saber mais sobre os benefícios de usar o Room e como implementá-lo no seu aplicativo, consulte o guia Biblioteca de persistência Room.
+
+Quando sua atividade entra no estado "Parado", o objeto Activity é mantido residente na memória: ele mantém todas as informações de estado e membro, mas não é anexado ao gerenciador de janelas. Quando a atividade é retomada, ela chama novamente essas informações. Não é necessário reiniciar componentes criados durante qualquer método de callback que leve ao estado "Retomado". O sistema também acompanha o estado atual de cada objeto View no layout. Portanto, se o usuário inserir um texto em um widget EditText, o conteúdo será retido e você não precisará salvar e restaurar. 
+onDestroy()
+
+onDestroy() é chamado antes de a atividade ser destruída. O sistema invoca esse callback porque:
+
+    a atividade está sendo finalizada (pelo fato do usuário descartá-la completamente ou devido a finish() ser chamado na atividade); ou
+    o sistema está destruindo temporariamente a atividade devido a uma mudança na configuração (como a rotação do dispositivo ou o modo de várias janelas)
+
+Quando a atividade é movida para o estado destruído, qualquer componente ciente do ciclo de vida ligado ao ciclo de vida da atividade receberá o evento ON_DESTROY. É nesse momento que os componentes do ciclo de vida podem limpar qualquer item que eles precisarem antes da destruição da atividade.
+
+Em vez de inserir lógica à sua atividade para determinar por que ela está sendo destruída, use um objeto ViewModel para manter os dados de visualização relevante a ela. Se a atividade for recriada devido a uma mudança na configuração, o ViewModel não precisará realizar nenhuma ação. Ela será preservada e fornecida à próxima instância da atividade. Se a atividade não for recriada, o ViewModel chamará o método onCleared(), em que ele pode limpar os dados necessários antes da destruição.
+
+É possível distinguir entre essas duas situações com o método isFinishing().
+
+Caso a atividade esteja sendo encerrada, onDestroy() será o callback do ciclo de vida final recebido pela atividade. Se onDestroy() for chamado como o resultado da mudança na configuração, o sistema criará imediatamente uma nova instância de atividade e chamará onCreate() nessa instância na nova configuração.
+
+Os callbacks onDestroy() liberarão todos os recursos ainda não liberados pelos callbacks anteriores, como onStop(). 
