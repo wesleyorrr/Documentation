@@ -1,0 +1,159 @@
+Vídeos de prévia
+
+Um vídeo de prévia é uma ótima maneira de incentivar o usuário a usar um link direto para acessar seu app para TV. As prévias podem variar de clipes curtos a trailers de filmes completos.
+
+Ao criar uma prévia, considere estas diretrizes:
+
+    Não mostre anúncios em uma prévia. Se você agrupa anúncios no lado do cliente, não os agrupe em vídeos de prévia. Se você agrupa anúncios no lado do servidor, disponibilize um vídeo sem anúncios para a prévia.
+    Para atingir a melhor qualidade, os vídeos de prévia devem ter a proporção 16:9 ou 4:3. Consulte Atributos do programa de vídeo para ver os tamanhos recomendados para vídeos de prévia.
+    Quando o vídeo de prévia e a arte do pôster têm proporções diferentes, a tela inicial redimensiona a visualização do pôster para a proporção do vídeo antes de exibir a prévia. O vídeo não tem efeito letterbox. Por exemplo, se a proporção da arte do pôster for ASPECT_RATIO_MOVIE_POSTER (1:1.441), mas a do vídeo for 16:9, a visualização do pôster será redimensionada para uma região de 16:9.
+    Ao criar uma prévia, o conteúdo dela pode ser de acesso público ou protegido por DRM. Diferentes procedimentos são usados em cada caso. Ambos são descritos nesta página.
+
+Exibir a prévia na tela inicial
+
+Se você criar uma prévia usando qualquer um dos tipos de vídeo (link em inglês) compatíveis com o ExoPlayer e ela for de acesso público, poderá exibi-la diretamente na tela inicial.
+
+A criar um PreviewProgram, use setPreviewVideoUri() com um URL HTTPS de acesso público, conforme mostrado no exemplo abaixo. A prévia pode ser um vídeo ou áudio.
+
+
+val previewVideoUrl = Uri.parse("https://www.example.com/preview.mp4")
+    val builder = PreviewProgram.Builder()
+    builder.setChannelId(channelId)
+        // ...
+        .setPreviewVideoUri(previewVideoUrl)
+    
+
+Renderizar a prévia em uma superfície
+
+Se o vídeo for protegido por DRM ou estiver em um tipo de mídia não compatível com o ExoPlayer, use um TvInputService. A tela inicial do Android TV transmite um Surface para seu serviço chamando onSetSurface(). O app desenha o vídeo diretamente nessa superfície usando o onTune().
+
+A renderização direta na superfície permite que o app controle o que é renderizado e como isso é feito. Você pode sobrepor metadados, como atribuição de canais.
+Declarar seu TvInputService no manifesto
+
+Seu app precisa oferecer uma implementação de TvInputService para que a tela inicial possa renderizar sua prévia.
+
+Na declaração de serviço, inclua um filtro de intent que especifique TvInputService como a ação a ser executada com a intent. Além disso, declare os metadados de serviço com um recurso XML separado. A declaração de serviço, o filtro de intent e a declaração de metadados de serviço são mostrados no exemplo a seguir:
+
+    <service android:name=".rich.PreviewInputService"
+        android:permission="android.permission.BIND_TV_INPUT">
+        <!-- Required filter used by the system to launch our account service. -->
+        <intent-filter>
+            <action android:name="android.media.tv.TvInputService" />
+        </intent-filter>
+        <!-- An XML file which describes this input. -->
+        <meta-data
+            android:name="android.media.tv.input"
+            android:resource="@xml/previewinputservice" />
+    </service>
+    
+
+Defina os metadados de serviço em um arquivo XML separado. O arquivo de metadados de serviço fica no diretório de recursos XML do seu app e precisa ter o mesmo nome do recurso que você declarou no manifesto. Usando as entradas do manifesto do exemplo anterior, você criaria o arquivo XML em res/xml/previewinputservice.xml, com uma tag tv-input vazia:
+
+<?xml version="1.0" encoding="utf-8"?>
+    <tv-input/>
+    
+
+O TV Input Framework precisa ter essa tag, mas ela só é usada para configurar canais ao vivo. Como você está renderizando um vídeo, a tag precisa estar vazia.
+Criar um URI de vídeo
+
+Para indicar que seu vídeo de prévia será renderizado pelo app, não pela tela inicial do Android TV, é preciso criar um URI de vídeo para um PreviewProgram. O URI precisa terminar com o identificador usado pelo app para o conteúdo. Assim, você poderá recuperar o conteúdo no TvInputService mais tarde.
+
+Se o identificador for do tipo Long, use TvContractCompat.buildPreviewProgramUri():
+Kotlin
+Java
+
+val id: Long = 1L // content identifier
+    val componentName = new ComponentName(context, PreviewVideoInputService.class)
+    val previewProgramVideoUri = TvContractCompat.buildPreviewProgramUri(id)
+       .buildUpon()
+       .appendQueryParameter("input", TvContractCompat.buildInputId(componentName))
+       .build()
+    
+
+Se o identificador não for do tipo Long, crie o URI usando Uri.withAppendedPath():
+Kotlin
+Java
+
+    val previewProgramVideoUri = Uri.withAppendedPath(PreviewPrograms.CONTENT_URI, "content-identifier")
+           .buildUpon()
+           .appendQueryParameter("input", TvContractCompat.buildInputId(componentName))
+           .build()
+
+O app chama onTune(Uri videoUri) para fazer o Android TV iniciar o vídeo de prévia.
+Criar um serviço
+
+O exemplo a seguir mostra como estender TvInputService para criar seu próprio PreviewInputService. O serviço usa um MediaPlayer para reprodução, mas seu código pode usar qualquer player de vídeo disponível.
+Kotlin
+Java
+
+import android.content.Context
+    import android.media.MediaPlayer
+    import android.media.tv.TvInputService
+    import android.net.Uri
+    import android.util.Log
+    import android.view.Surface
+    import java.io.IOException
+
+    class PreviewVideoInputService : TvInputService() {
+
+        override fun onCreateSession(inputId: String): TvInputService.Session? {
+            return PreviewSession(this)
+        }
+
+        private inner class PreviewSession(
+            internal var context: Context
+        ) : TvInputService.Session(context) {
+
+            internal var mediaPlayer: MediaPlayer? = MediaPlayer()
+
+            override fun onRelease() {
+                mediaPlayer?.release()
+                mediaPlayer = null
+            }
+
+            override fun onTune(uri: Uri): Boolean {
+                // Let the TvInputService know that the video is being loaded.
+                notifyVideoUnavailable(VIDEO_UNAVAILABLE_REASON_TUNING)
+                // Fetch the stream url from the TV Provider database
+                // for content://android.media.tv/preview_program/
+                val id = uri.lastPathSegment
+                // Load your video in the background.
+                retrieveYourVideoPreviewUrl(id) { videoUri ->
+                    if (videoUri == null) {
+                      Log.d(TAG, "Could not find video $id")
+                      notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_UNKNOWN)
+                    }
+
+                    try {
+                        mPlayer.setDataSource(getApplicationContext(), videoUri)
+                        mPlayer.prepare()
+                        mPlayer.start()
+                        notifyVideoAvailable()
+                    } catch (IOException e) {
+                        Log.e(TAG, "Could not prepare media player", e)
+                        notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_UNKNOWN)
+                    }
+                  }
+              return true
+            }
+
+            override fun onSetSurface(surface: Surface?): Boolean {
+                mediaPlayer?.setSurface(surface)
+                return true
+            }
+
+            override fun onSetStreamVolume(volume: Float) {
+                // The home screen may fade in and out the video's volume.
+                // Your player should be updated accordingly.
+                mediaPlayer?.setVolume(volume, volume)
+            }
+
+            override fun onSetCaptionEnabled(b: Boolean) {
+                // enable/disable captions here
+            }
+        }
+
+        companion object {
+            private const val TAG = "PreviewInputService"
+        }
+    }
