@@ -1,0 +1,9 @@
+Visão geral dos recursos de aplicativo
+
+Recursos são os arquivos complementares e o conteúdo estático usado pelo seu código, como bitmaps, definições de layout, strings da interface do usuário, instruções de animação, entre outros.
+
+Sempre exteriorize os recursos do app, como imagens e strings do código, para que a manutenção deles possa ser feita de forma independente. Além disso, forneça recursos alternativos para configurações específicas do dispositivo agrupando-os em diretórios de recursos especialmente nomeados. Durante a execução, o Android usa o recurso adequado com base na configuração atual. Por exemplo, forneça um outro layout de IU de acordo com o tamanho da tela ou strings diferentes dependendo da configuração de idioma.
+
+Ao exteriorizar os recursos do app, eles podem ser acessados com IDs de recurso gerados na classe R do projeto. Este documento mostra como agrupar os recursos no seu projeto Android. Ele também mostra como fornecer recursos alternativos para configurações específicas do dispositivo e, em seguida, acessá-los no código do app ou de outros arquivos XML.
+Fornecer recursos alternativos
+A maioria dos apps oferece recursos alternativos para oferecer suporte a configurações específicas do dispositivo. Por exemplo, inclua recursos drawable alternativos para densidades de tela diferentes e recursos alternativos de string para idiomas diferentes. Durante a execução, o Android detecta a configuração atual do dispositivo e carrega os recursos adequados para o app.
