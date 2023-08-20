@@ -1,0 +1,12 @@
+MVVM significa Model-View-ViewModel, que é um padrão arquitetural comumente usado no desenvolvimento de aplicativos Android, especialmente com Kotlin. Ele é projetado para separar as preocupações da interface do usuário, lógica de negócios e manipulação de dados de um aplicativo de maneira que promova modularidade, manutenibilidade e testabilidade. Vamos analisar cada componente do padrão MVVM:
+
+    Model (Modelo):
+    O Model representa os dados e a lógica de negócios do seu aplicativo. Ele inclui classes que gerenciam e armazenam dados, além de quaisquer regras ou operações comerciais relevantes. No contexto do Android, isso poderia ser dados obtidos de APIs, bancos de dados ou outras fontes de dados.
+
+    View (Visualização):
+    A View é responsável por renderizar a interface do usuário e apresentar dados ao usuário. No Android, isso é tipicamente representado por arquivos de layout XML e os componentes de interface do usuário (por exemplo, TextViews, Buttons, RecyclerViews) dentro deles.
+
+    ViewModel:
+    O ViewModel atua como intermediário entre o Model e a View. Ele contém os dados relacionados à interface do usuário necessários para a View exibir, ao mesmo tempo que contém a lógica necessária para interagir com o Model. O principal objetivo do ViewModel é fornecer uma maneira limpa e eficiente para a View acessar e exibir dados sem lidar diretamente com a lógica de negócios ou a recuperação de dados.
+
+O MVVM promove o uso do data binding, que permite vincular os componentes de interface do usuário na View diretamente aos dados no ViewModel. Isso elimina grande parte do código repetitivo relacionado à atualização de elementos da interface do usuário quando os dados subjacentes mudam.
