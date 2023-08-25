@@ -1,0 +1,19 @@
+#Android MVC
+Hoje em dia a demanda de desenvolvimento de aplicativos móveis é muito alta. Para ser competitivo, um aplicativo móvel deve ser eficaz em termos de custos e ser de boa qualidade.
+
+A escolha da arquitetura é importante para garantir a qualidade da aplicação a longo tempo e para reduzir o tempo de desenvolvimento.
+
+O desenvolvimento iOS é baseado no Model-View-Controller e é bem estruturado. O sistema Android não requer qualquer modelo: a escolha da arquitetura e a qualidade da aplicação dependem muito da experiência do desenvolvedor.
+
+Soluções heterogêneas desaceleram o desenvolvedor, enquanto o padrão de design conhecido não só poderia aumentar o tempo de desenvolvimento, mas melhorar a capacidade de manutenção, extensibilidade e o desempenho da aplicação.
+
+MVC (Model-View-Controller) é um padrão de projeto de software que separa a interface do usuário (View) e das regras de negócio e dados (Model) usando um mediador (Controller) para conectar o modelo à view.
+
+O principal benefício do MVC para nós é a separação de interesses. Cada parte do MVC cuida de seu próprio trabalho: a view cuida da interface com o usuário, o modelo se encarrega dos dados, e o controlador envia mensagens entre os dois.
+
+O controlador fornece os dados do modelo para a view se ligar a interface do usuário. Quaisquer alterações ao controlador são transparentes para a view e as mudanças de interface do usuário não afetarão a lógica de negócios e vice-versa.
+
+Os padrões de design ajudam a impor uma estrutura sobre os desenvolvedores para que o código se torne mais controlado e menos propenso a cair em desuso. A separação do MVC de interesses torna muito mais fácil para adicionar unidades de testes.
+
+O Android já utiliza um padrão MVC com os arquivos XML agindo como a view. Contudo, isto não nos fornece quaisquer possibilidades reais de separação de interesses.
+Um dos problemas fundamentais com todos os tipos de software pode ser resumido no conceito de entropia, que sugere que o código ordenado naturalmente se torna desordenado ao longo do tempo. Ou em outras palavras, não importa o quão duro você tente, seu código irá gradualmente ir de um estado organizado para um estado desorganizado em que também é conhecido como altamente acoplado.
