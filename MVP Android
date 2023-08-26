@@ -1,0 +1,35 @@
+MVP Android
+Separação de conce#itos
+
+O termo Separação de Conceitos, a princípio, foi cunhado primeiramente por Edsger Wybe Dijkstra. Dijkstra foi pioneiro em várias áreas da computação, porém o pensamento dele sobre a separação de conceitos foi um tanto quanto geral, ou seja, algo que é uma escolha inteligente independente se estarmos ou não falando de computação.
+
+Resumidamente Dijkstra disse que o estudo isolado de um aspecto, um conceito, mesmo quando sabendo da importância dos outros e ainda assim os mantendo como irrelevantes para o conceito atual em estudo, esse comportamento é um comportamento inteligente, pois assim é possível ir a fundo no assunto, aspecto, e decifra-lo, resolve-lo, da melhor maneira possível.
+
+Dijkstra citou isso ainda na década de 70, naquela época os softwares já tinham problemas em serem "amontoados". Separação de conceitos foi o ponta-pé inicial para os estudos da construção de softwares em camadas.
+Arquitetura multicamadas
+
+O assunto "arquitetura em multicamadas" não tem uma definição explicita de quais são as camadas que certamente devem ter em um software, somente que é uma melhor opção defini-lo, o software, em camadas, nem mesmo o número mínimo e máximo é seguro informar.
+
+Com a divisão do software em layers nós programadores damos o primeiro passo na direção de um software de arquitetura limpa.
+
+Alias, arquitetura limpa em aplicativos Android é algo muito maior do que somente a utilização do MVP. Esse assunto já vem sendo discutido a algum tempo e há excelentes artigos sobre.
+Com o software em camadas nós conseguimos melhorar em muito a reutilização de código e manutenção e evolução dele. Ressaltando que o trabalho de softwares em camadas é algo que complementa a estratégia de código limpo juntamente com técnicas de escrita limpa de algoritmos e com o uso de padrões de projeto.
+
+Importante notar que o desenvolvimento em camadas não é uma exclusividade da programação orientada a objetos, qualquer paradigma de desenvolvimento pode trabalhar nessa linha.
+
+Outro ponto importante é que as camadas mais acima na arquitetura tendem a ser dependentes das camadas abaixo, sempre: ou somente da próxima camada abaixo ou da próxima e de mais algumas.
+
+Assim podemos prosseguir a dois conhecidos e muito utilizados padrões de arquitetura: MVC (somente para relembrar) e MVP.
+
+Model-View-Presenter (MVP)
+
+Primeiro, não assuma que o MVP existe devido a uma adaptação necessária do MVC ao Android, pois o MVP é muito anterior ao Android, mais precisamente, da década de 90, onde a união Apple, HP e IBM fez com esse padrão de arquitetura surgisse devido a necessidades que o MVC não cobria.
+
+Alguns conteúdos que consumi informavam que o MVP não era um padrão de arquitetura, você provavelmente pode encontrar isso também.
+
+Mas baseando-se que ele tem como origem o MVC, que nosso conhecimento tácito nos permite o correto entendimento do que é um padrão de arquitetura e que algumas fontes mais seguras confirmam ele como padrão de arquitetura... partindo disso acredito ser seguro assumi-lo como também sendo um architecture pattern.
+A seguir a definição das camadas:
+
+    View (Visualização): como no MVC, responde a saída e entrada de dados, porém a saída vem do Presenter, a entrada normalmente vem do usuário;
+    Presenter (Apresentador): Camada responsável por responder as invocações da camada de visualização e invocações da camada de modelo, além de também poder invocar ambas as camadas. O Presenter trabalha a formatação dos dados que entram em ambas as camadas paralelas e também pode incluir parte da lógica de negócio que alguns programadores podem pensar que deveria estar somente na camada de modelo;
+    Model (Modelo): camada fornecedora de dados além de conter a lógica de negócio do domínio do problema.
