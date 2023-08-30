@@ -1,0 +1,4 @@
+Injeção de dependências com o Hilt
+O Hilt é uma biblioteca de injeção de dependências para Android que reduz o código boilerplate criado por injeções manuais no projeto. A injeção de dependências manual exige que você construa todas as classes e dependências manualmente e use contêineres para reutilizar e gerenciar dependências.
+O Hilt inclui uma maneira padrão de usar a injeção de dependências (DI, na sigla em inglês) no seu aplicativo, oferecendo contêineres para cada classe do Android no projeto e gerenciando os ciclos de vida de cada uma automaticamente. O Hilt foi criado com base na conhecida biblioteca de DI Dagger, com o objetivo de aproveitar a precisão do tempo de compilação, a performance no ambiente de execução, a escalonabilidade e o suporte do Android Studio oferecidos pelo Dagger. Para mais informações, consulte Hilt e Dagger.
+
