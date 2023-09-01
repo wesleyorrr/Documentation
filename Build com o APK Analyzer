@@ -1,0 +1,2 @@
+build com o APK Analyzer
+O Android Studio inclui o APK Analyzer, que fornece insights imediatos sobre a composição do APK ou do Android App Bundle após a conclusão do processo de build. Usando o APK Analyzer, é possível reduzir o tempo gasto na depuração de problemas com arquivos e recursos DEX no seu app e reduzir o tamanho do APK. 
