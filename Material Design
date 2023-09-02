@@ -1,0 +1,46 @@
+Material Design
+Material Design (codinomeado Quantum Paper)[1] é uma linguagem de design livre desenvolvida pela Google com o objetivo de unificar e padronizar as interfaces gráficas dos sistemas da empresa (conjunto de diretrizes ou guidelines),[2] anunciado em 2014 como uma melhoria no "card" do assistente pessoal Google Now do sistema Android, que usa layouts mais liberal baseados em grids, minimalismo e clean, com animações e transições responsivas, preenchimentos, e efeitos de profundidade como luzes e sombras. O designer Matías Duarte explicou que "diferente do papel real, o nosso material digital pode se expandir e se modificar de forma inteligente. O Material tem bordas e superfícies físicas. Costuras e sombras dão um sentido com o que você pode tocar." Conforme a Google a linguagem de design é baseada em papel e tinta e,[3][4] pode ser usado a partir da versão 2.1 do Android através da biblioteca v7 appcompat library (presente nos dispositivos Android criados depois de 2009).
+
+O Material Design será progressivamente implementado ao portfólio de produtos de web e móveis da Google, fornecendo uma experiência consistente em todas as plataformas e aplicações. A Google também lançou uma interface de programação de aplicações (APIs) para desenvolvedores terceiros incorporarem a linguagem de design em seus aplicativos.
+
+
+[ocultar]
+Conteúdo
+
+    Início
+    Implementação
+    Características
+    Ver também
+    Referências
+    Ligações externas
+
+Material Design
+
+    Artigo
+    Discussão
+
+    Ler
+    Editar
+    Ver histórico
+
+Ferramentas
+
+Origem: Wikipédia, a enciclopédia livre.
+Alguns componentes típicos da interface de usuário do Material Design
+
+Material Design (codinomeado Quantum Paper)[1] é uma linguagem de design livre desenvolvida pela Google com o objetivo de unificar e padronizar as interfaces gráficas dos sistemas da empresa (conjunto de diretrizes ou guidelines),[2] anunciado em 2014 como uma melhoria no "card" do assistente pessoal Google Now do sistema Android, que usa layouts mais liberal baseados em grids, minimalismo e clean, com animações e transições responsivas, preenchimentos, e efeitos de profundidade como luzes e sombras. O designer Matías Duarte explicou que "diferente do papel real, o nosso material digital pode se expandir e se modificar de forma inteligente. O Material tem bordas e superfícies físicas. Costuras e sombras dão um sentido com o que você pode tocar." Conforme a Google a linguagem de design é baseada em papel e tinta e,[3][4] pode ser usado a partir da versão 2.1 do Android através da biblioteca v7 appcompat library (presente nos dispositivos Android criados depois de 2009).
+
+O Material Design será progressivamente implementado ao portfólio de produtos de web e móveis da Google, fornecendo uma experiência consistente em todas as plataformas e aplicações. A Google também lançou uma interface de programação de aplicações (APIs) para desenvolvedores terceiros incorporarem a linguagem de design em seus aplicativos.[5][6][7]
+Implementação
+
+A Google anunciou o Material Design em 25 de junho de 2014 na conferência Google I/O. Como em 2015, a maioria dos aplicativos móveis da Google para Android já aplicaram a nova linguagem de design, incluindo o Gmail, YouTube, Google Drive, Google Documentos, Planilhas e Apresentações, Google Maps, Inbox, todas os aplicativos com a marca Google Play, e, em menor medida, no navegador Chrome e no Google Keep. A interface web para desktop do Google Drive, Documentos, Planilhas, Apresentações e o Inbox também o incorporaram.
+
+A implementação canônica do Material Design para a interface de usuário de aplicativos web é chamada de Polymer.[8] Ela consiste da biblioteca Polymer, um shim que fornece uma API com o Componentes Web para navegadores que não implementaram o padrão nativamente, e um catálogo de elementos, entre eles a "coleção de elementos de papel", que apresenta elementos visuais do Material Design.
+
+Algumas das diretrizes são:
+
+Formas: a interface é baseada principalmente em cartões, com um visual sólido, limpo e, geométrico. Por exemplo, são utilizados retângulos com grandes espaços em branco e, bordas suaves para aumentar a clareza do conteúdo.[2]
+
+Cores: possui paleta de cores própria bastante agradável e chamativa.[2]
+
+Ícones: Os ícones também são feitos a partir de formas geométricas e devem ser simples, para parecer tátil, ou seja, partindo do propósito acima de como se o usuário realmente estivesse no mundo real. De antemão precisamos saber que existem dois tipos: de produto e de sistema. O de produto é o ícone do aplicativo e o segundo se refere aos ícones internos do app, para identificação de funcionalidade.
