@@ -1,0 +1,36 @@
+Kotlin Multiplatform Mobile
+Antes de falar sobre o que é o Kotlin Multiplatform Mobile (KMM), vou começar falando o que ele NÃO é.
+O KMM não é:
+
+    a nova bala de prata.
+    tentativa de matar o desenvolvimento nativo.
+    solução completa para aplicações multiplataforma (da UI até sua lógica de negócio).
+    não promete ser uma solução “Build once deploy everywhere”.
+    não promete simplificar ou recriar sua camada de UI.
+    framework para gerar aplicativos híbridos.
+
+O que é?
+
+Antes de entrarmos no Kotlin Multiplatform Mobile (KMM), é importante entendermos o que é o Kotlin Multiplatform. Trata-se de uma feature ainda experimental do Kotlin, criada pela JetBrains, que permite compartilhar código comum entre múltiplas plataformas (JavaScript, iOS, Android, desktop, etc).
+Na camada mais interna (Common Kotlin) temos todo o código Kotlin que funciona em todas as plataformas. Contém todo o código comum, incluindo HTTP, serialização e gerenciamento de coroutines.
+
+Na camada intermediária (Kotlin/JVM, Kotlin/JS e Kotlin/Native) temos todos os códigos Kotlin específicos necessários para cada plataforma, para garantir a interoperabilidade entre estas e o Kotlin.
+
+Na camada mais externa (JVM Code, Native Code e Js Code) temos todo código nativo específico de cada plataforma.
+
+A partir desse contexto, surgiu o KMM sendo uma especialização do Kotlin Multiplatform focada na plataforma mobile.
+
+A premissa é que você pode escrever sua lógica de negócio apenas uma vez em Kotlin e usar esse código tanto no Android quanto no iOS. Porém, ainda temos a necessidade de escrever códigos de UI específicos de acordo com cada plataforma.
+Na imagem acima podemos entender como o KMM é estruturado. Temos nosso código compartilhado (core e lógica de negócio) e o código específico de cada plataforma sendo usados por código nativo Android e/ou iOS (geralmente views).
+Padrão expect/actual
+
+Caso seja necessário implementar algum código específico em cada plataforma (por exemplo, gerar um UUID ou acessar bluetooth) você tem a possibilidade de usar as declarações expect e actual.
+
+Esse mecanismo é parecido com uma interface, onde o módulo compartilhado define uma declaração com a palavra chave expect e os módulos de cada plataforma proveem a declaração com a palavra chave actual escritos em Kotlin (e posteriormente compilados para Swift no caso do iOS).
+Concorrentes? Ou não…
+
+Flutter: solução ponta a ponta que usa Dart como linguagem. Com o mesmo código você consegue rapidamente gerar apps Android e iOS usando a mesma camada de UI. O código Dart é compilado em bibliotecas nativas (ARM e x86) que são incorporadas num projeto executor e a partir dele, podemos gerar nossos compilados como aab/apk (Android) ou ipa (iOS).
+
+React Native: assim como o Flutter, também oferece uma solução ponta a ponta, mas usa React (JavaScript). Antigamente, a comunicação do Javascript com o nativo era feita a partir de uma bridge bidirecional, mas com a mudança de arquitetura essa comunicação agora é feita com JSI (JavaScript Interface), fazendo com que as funções sejam chamadas diretamente através do código JavaScript do React Native.
+
+Xamarin Native: alternativa proposta pela Microsoft que mais se aproxima do KMM. A idéia também é que você tenha seu código de UI de cada plataforma e escreva a lógica de negócios compartilhada em C#, utilizando o Visual Studio. No caso do Android, os aplicativos são compilados de C# para IL (Linguagem Intermediária) e em seguida são compilados para um assembly nativo quando o app é iniciado. No iOS, o aplicativos são compilados diretamente de C# para assembly ARM nativo. Já o Xamarin Forms se propõe a ser uma solução ponta a ponta como Flutter e React Native usando C#.
