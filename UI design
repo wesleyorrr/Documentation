@@ -1,0 +1,63 @@
+UI design: o que é e como criar interfaces fáceis, eficientes e agradáveis de usar
+
+Não sabe o que é UI design? Leia o artigo para aprender o conceito, como aplicar e quais são as diferenças entre UX e UI
+UI design (user interface design, ou design de interface do usuário) é o processo de construção de interfaces (como sites e aplicativos) que podem ser utilizadas de maneira fácil, eficiente e agradável. Para atingir esse objetivo, o designer de UI estuda as interações do usuário com o produto, segue boas práticas e faz testes.
+A interface é uma parte essencial de qualquer produto. Quando bem feita, os usuários não a percebem. Porém, quando mal feita, pode impedir que o produto seja utilizado adequadamente.
+
+É por isso que, para criar interfaces bem-sucedidas, os profissionais da área costumam seguir alguns princípios de UI design, também chamado de design de interface do usuário. 
+
+Mas, afinal, o que é UI design? Como aplicar esse conceito? E no que ele difere do UX design? Se você tem dúvidas sobre o assunto, continue a leitura do artigo!
+O que é UI design?
+Antes de entender o que é UI design, convém esclarecer o que é uma UI. A interface do usuário (user interface, ou simplesmente UI) representa tudo o que é usado para que alguém interaja com um produto.
+
+UI design, portanto, é o processo de construção de interfaces para produtos como computadores, celulares e outros dispositivos eletrônicos, com foco em oferecer uma boa usabilidade e uma experiência de qualidade aos usuários. 
+
+A ideia é que as pessoas possam usar a interface de maneira fácil, eficiente e agradável. Além disso, uma boa interface reduz os esforços feitos pelos usuários, ajudando-os a alcançar seus objetivos no uso do produto sem dificuldades, de maneira intuitiva.
+
+Para criar interfaces com esses pré-requisitos, os profissionais da área usam diversos métodos centrados no usuário, como entrevistas e observação direta. A interface do usuário também deve ser agradável esteticamente, mas o UI design vai além do aspecto visual.
+Qual é a diferença entre UX e UI design?
+Quando se fala em UI design, logo surge a dúvida: mas e o UX? Qual a diferença? A confusão é compreensível, afinal as siglas são parecidas. Vamos esclarecer no que os dois conceitos divergem.
+
+Enquanto o foco do UI design é a criação de uma interface amigável, o UX é voltado para a maneira como o usuário vive o uso de um produto. O UI trata dos elementos com os quais o usuário interage, ao passo que o UX procura entender os comportamentos e emoções dessas pessoas no uso do produto. 
+
+Entrevistas com usuários para entender necessidades, construção de personas e elaboração da jornada do usuário fazem parte do dia a dia de quem trabalha com UX. 
+
+Já no caso do UI design, as tarefas incluem desenvolvimento de protótipos navegáveis para testes com usuários, criação do design visual a partir de wireframes e fluxos de interação e elaboração de guias para desenvolvedores. 
+
+Apesar das diferenças, não se deve falar em UX versus UI. Ambos os conceitos andam de mãos dadas, funcionando de maneira complementar.
+Quais são os princípios do UI design?
+
+
+A criação de uma boa interface do usuário exige a aplicação de alguns princípios de UI design. É possível encontrar diversos deles. 
+
+Um exemplo clássico são as 8 regras de ouro do design de interface do usuário, listadas por Ben Shneiderman. Há também os 10 princípios gerais do UI design, compilados por Jakob Nielsen, que vamos priorizar neste artigo. Saiba quais são:
+1. Visibilidade do status do sistema
+
+O design deve sempre manter os usuários informados sobre o que está acontecendo, por meio de feedback apropriado, dentro de um período de tempo razoável. Por exemplo, quando o usuário clicar em um botão, ele muda sua cor de fundo.
+2. Correspondência entre o sistema e o mundo real:
+
+Use palavras, frases e conceitos que o usuário conhece, em detrimento do jargão usado internamente na empresa. Termos, ícones e imagens que parecem claros para os funcionários podem não ser conhecidos pelo público. Por isso, siga as convenções do mundo real. Fazer pesquisas com clientes pode ajudar a fazer essa adequação.
+3. Controle e liberdade do usuário
+
+É comum que usuários executem ações indesejadas sem querer. Permita que desfaçam ou refaçam tarefas sem ter que voltar do início. Isso traz, para eles, uma sensação de controle e liberdade, além de evitar frustração.
+4. Consistência e padrões
+
+O ideal é que o usuário não se pergunte se palavras ou ações diferentes significam a mesma coisa. Lembre-se de que eles usam produtos diferentes dos seus, e esse uso define suas expectativas. Por isso, mantenha consistência e siga padrões do seu mercado de atuação, evitando aumentar a carga cognitiva dos usuários. 
+5. Prevenção de erros
+
+É importante ter uma mensagem clara de erro, mas melhor do que isso é evitar que o problema ocorra. Priorize aqueles de alto custo para a empresa e em seguida as frustrações menores. 
+6. Reconhecimento em vez de lembrança
+
+O usuário não deve ter que lembrar onde estão elementos, ações e opções. Torne essas informações visíveis ou facilmente recuperáveis para reduzir o esforço cognitivo dos usuários. Além disso, ofereça ajuda contextualizada, no momento certo.
+7. Flexibilidade e eficiência de uso
+
+Permita que os usuários personalizem ações frequentes conforme o uso que fazem do produto. Assim, o design também atende aos usuários mais experientes. 
+8. Design estético e minimalista
+
+As interfaces não devem conter dados que só são necessários vez ou outra, para não ofuscar aqueles que realmente importam. Mantenha seu design visual e seu conteúdo focados no essencial. 
+9. Ajude os usuários a reconhecer, diagnosticar e se recuperar de erros
+
+As mensagens de erro devem ser expressas de forma compreensível, evitando códigos de erro, indicando o problema com precisão e sugerindo uma solução. Mais uma vez, a dica é evitar o jargão. O visual também é importante: a tela deve ser facilmente reconhecida pelo usuário como uma mensagem de erro. 
+10. Ajuda e documentação
+
+Eventualmente, pode ser necessário oferecer tutoriais e explicações para auxiliar os usuários, ainda que isso não seja o ideal. Por isso, torne o conteúdo de ajuda fácil de pesquisar, conciso e prático, com uma lista de etapas concretas que devem ser realizadas para concluir uma ação
