@@ -1,0 +1,21 @@
+O modelo relacional é um modelo de dados representativo (ou de implementação), adequado a ser o modelo subjacente de um Sistema Gerenciador de Banco de Dados (SGBD), que se baseia no princípio de que todos os dados estão armazenados em tabelas (ou, matematicamente falando, relações). Toda sua definição é teórica e baseada na lógica de predicados e na teoria dos conjuntos.
+
+O conceito foi criado por Edgar Frank Codd em 1970, sendo descrito no artigo "Relational Model of Data for Large Shared Data Banks". Na verdade, o modelo relacional foi o primeiro modelo de dados descrito teoricamente, os bancos de dados já existentes passaram então a ser conhecidos como (modelo hierárquico, modelo em rede ou Codasyl e modelo de listas invertidas).
+
+O modelo relacional para gerência de bases de dados (SGBD) é um modelo de dados baseado em lógica e na teoria de conjuntos.
+
+Em definição simplificada, o modelo baseia-se em dois conceitos: conceito de entidade e relação - Uma entidade é um elemento caracterizado pelos dados que são recolhidos na sua identificação vulgarmente designado por tabela. Na construção da tabela identificam-se os dados da entidade. A atribuição de valores a uma entidade constrói um registro da tabela. A relação determina o modo como cada registro de cada tabela se associa a registros de outras tabelas.
+
+Historicamente ele é o sucessor do modelo hierárquico e do modelo em rede. Estas arquiteturas antigas são até hoje utilizadas em alguns data centers com alto volume de dados, onde a migração é inviabilizada pelo custo que ela demandaria; existem ainda os novos modelos baseados em orientação ao objeto, que na maior parte das vezes são encontrados como kits em linguagem formal.
+
+O modelo relacional foi inventado pelo Frank Codd e subsequentemente mantido e aprimorado por Chris Date e Hugh Darwen como um modelo geral de dados. No Terceiro Manifesto (1995) eles mostraram como o modelo relacional pode ser estendido com características de orientação a objeto sem comprometer os seus princípios fundamentais.
+
+A linguagem padrão para os bancos de dados relacionais, SQL, é apenas vagamente remanescente do modelo matemático. Atualmente ela é adotada, apesar de suas restrições, porque ela é antiga e muito mais popular que qualquer outra linguagem de banco de dados.
+
+A principal proposição do modelo relacional é que todos os dados são representados como relações matemáticas, isto é, um subconjunto do produto Cartesiano de n conjuntos. No modelo matemático (diferentemente do SQL), a análise dos dados é feita em uma lógica de predicados de dois valores (ou seja, sem o valor nulo ); isto significa que existem dois possíveis valores para uma proposição: verdadeira ou falsa. Os dados são tratados pelo cálculo relacional ou álgebra relacional.
+
+O modelo relacional permite ao projetista criar um modelo lógico consistente da informação a ser armazenada. Este modelo lógico pode ser refinado através de um processo de normalização. Um banco de dados construído puramente baseado no modelo relacional estará inteiramente normalizado. O plano de acesso, outras implementações e detalhes de operação são tratados pelo sistema DBMS, e não devem ser refletidos no modelo lógico. Isto se contrapõe à prática comum para DBMSs SQL nos quais o ajuste de desempenho frequentemente requer mudanças no modelo lógico.
+
+Os blocos básicos do modelo relacional são o domínio, ou tipo de dado. Uma tupla é um conjunto de atributos que são ordenados em pares de domínio e valor. Uma relvar (variável relacional) é um conjunto de pares ordenados de domínio e nome que serve como um cabeçalho para uma relação. Uma relação é um conjunto desordenado de tuplas. Apesar destes conceitos matemáticos, eles correspondem basicamente aos conceitos tradicionais dos bancos de dados. Uma relação é similar ao conceito de tabela e uma tupla é similar ao conceito de linha.
+
+O princípio básico do modelo relacional é o princípio da informação: toda informação é representada por valores em relações (relvars). Assim, as relvars não são relacionadas umas às outras no momento do projeto. Entretanto, os projetistas utilizam o mesmo domínio em vários relvars, e se um atributo é dependente de outro, esta dependência é garantida através da integridade referencial. 
