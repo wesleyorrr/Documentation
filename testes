@@ -1,0 +1,26 @@
+Os testes automatizados no contexto do desenvolvimento Android referem-se a práticas e técnicas de escrita de código que automatizam a verificação do comportamento de um aplicativo Android. Esses testes são divididos principalmente em duas categorias: testes unitários e testes instrumentados.
+
+Testes Unitários:
+
+O que são: São testes que verificam unidades individuais de código, como métodos ou classes, isoladas do resto do sistema.
+Ferramentas comuns: JUnit é frequentemente usado para escrever testes unitários em Java e Kotlin.
+Objetivo: Garantir que unidades específicas de código funcionem conforme o esperado, independentemente do restante do sistema.
+Exemplo: Testar uma função de cálculo de IMC em uma classe ViewModel.
+Testes Instrumentados:
+
+O que são: São testes que interagem diretamente com o ambiente Android, geralmente testando o comportamento de componentes específicos do Android, como atividades, fragmentos e serviços.
+Ferramentas comuns: Espresso é uma biblioteca popular para testes de interface do usuário (UI), enquanto o JUnit ainda é usado para lógica de negócios mais profunda.
+Objetivo: Garantir que os componentes e a lógica de interface do usuário funcionem corretamente em um ambiente Android real.
+Exemplo: Testar se um clique em um botão em uma atividade inicia corretamente uma nova atividade.
+Testes de Integração:
+
+O que são: São testes que verificam a interação entre diferentes partes do sistema.
+Ferramentas comuns: Podem envolver diferentes frameworks, dependendo do escopo e das necessidades específicas do teste.
+Objetivo: Garantir que as diferentes partes do sistema funcionem bem juntas como um todo.
+Exemplo: Testar a integração entre um banco de dados local e um serviço da web.
+Testes de Aceitação:
+
+O que são: São testes de mais alto nível que verificam se o aplicativo atende aos requisitos do usuário e se as principais funcionalidades estão operando corretamente.
+Ferramentas comuns: Ferramentas como Appium ou frameworks específicos de teste de aceitação.
+Objetivo: Garantir que o aplicativo atende às expectativas dos usuários finais.
+Exemplo: Testar o fluxo de um usuário por meio de cenários completos de uso do aplicativo.
