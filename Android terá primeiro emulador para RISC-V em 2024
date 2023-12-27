@@ -1,0 +1,27 @@
+Android terá primeiro emulador para RISC-V em 2024
+A maior parte dos dispositivos com Android usam processadores com arquitetura ARM. Enquanto isso, o Google está preparando o sistema operacional para ter suporte a outra tecnologia, a RISC-V, conhecida por ter código aberto e ser flexível. Não à toa, a empresa espera liberar o primeiro emulador dedicado a RISC-V no ano que vem.
+
+O avanço veio após o anúncio de novembro de 2022, no RISC-V Summit. Naquela época, a empresa começou a aceitar patches para a tecnologia. Agora, em um blog próprio para projetos open source, o Google afirmou que iniciou o processo de amadurecimento da tecnologia no universo Android.
+A empresa também determinou um conjunto inicial considerado como crítico para garantir que chips com RISC-V tenham bom desempenho no sistema. O agrupamento inclui o perfil va22 e as extensões vetoriais e de criptografia vetorial.
+
+A expectativa é de que, com o foco maior, o sistema operacional passe a oferecer melhor desempenho ao ser executado em dispositivos com a arquitetura RISC-V.
+O que é RISC-V e qual é a sua importância?
+
+O processador é o “cérebro” do computador, celulares, tablets e afins. É através dele que as informações são processadas, como o próprio nome sugere. Mas as diferenças entre os chips da atualidade não se restringem à marca e modelo: além da  arquitetura x86, usada pela Intel e AMD, há outras instruções no mercado.
+
+Entre elas, está o ARM. A arquitetura, que é conhecida pela eficiência energética, é amplamente utilizada em chips da Qualcomm e MediaTek para celulares e tablets do universo Android. A Apple também opta pela instrução nos processadores do iPhone, iPad e dos Macs mais recentes.
+
+O RISC-V (leia-se: risk-five) é outra aposta promissora do mercado. Desenvolvida em código aberto, o conjunto de instruções se destaca por ser flexível. Assim, as companhias não encaram barreiras ao produzir chips para atender os mais diversos propósitos – desde aparelhos simples até dispositivos complexos.
+
+A Qualcomm destacou mais duas vantagens para a arquitetura. Em primeiro lugar, está o controle, pois os desenvolvedores têm uma administração mais ampla dos ambientes de computação. A empresa também elencou que a arquitetura tem mais visibilidade na base de código, facilitando a solução de eventuais problemas.
+
+A arquitetura começou a ser desenvolvida em 2010, a partir de uma pesquisa da Universidade da Califórnia, em Berkeley. Sua estreia ao público, porém, só aconteceu em 2015. De lá para cá, a tecnologia evoluiu ao ponto de chamar a atenção de grandes nomes, como Google, Huawei, Intel, Tencent e muito mais.
+Emulador para rodar Android em RISC-V chega em breve
+
+Com o avanço, o Google disse que os desenvolvedores já podem construir, testar e executar o Android sobre a instrução RISC-V na própria máquina. Para isso, os usuários devem utilizar o suporte ao Cuttlefish Virtual Device. O procedimento é o mesmo para os alvos de plataforma do AOSP (Android Open Source Project).
+
+“No momento, esses patches darão suporte à criação e execução de uma experiência básica do Android Open Source Project, mas ainda não estão totalmente otimizados”, ressaltaram.
+
+As novidades não param por aí. O Google também pretende liberar emuladores para a arquitetura no ano que vem. Dessa forma, os desenvolvedores poderão testar e adaptar seus aplicativos em ambientes simulados com a instrução RISC-V.
+
+A expectativa é de que os wearables sejam os primeiros dispositivos a serem trabalhados nesse formato.
